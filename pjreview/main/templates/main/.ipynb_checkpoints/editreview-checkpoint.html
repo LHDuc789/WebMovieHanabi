@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-content">
+                <h3 class="text-center">Chỉnh Sửa Bình Luận</h3>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    {% if error %}
+                        <br>
+                        <strong style="color:red;">{{ error }}</strong>
+                        <br>
+                    {% endif %}
+                    <br>
+                    <input type="submit" value="Chỉnh Sửa Bình Luận" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

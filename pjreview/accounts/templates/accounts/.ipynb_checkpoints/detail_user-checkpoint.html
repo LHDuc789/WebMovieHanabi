@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="account-img" src="{{ user.profile.image.url }}">
+                </div>
+
+                <div class="col-md-8">
+                    <h5>Tên Đăng Nhập:</h5>
+                    <p>{{ detailuser.username }}<p>
+                    <h5>Tên:</h5>
+                    <p>{{ detailuser.first_name }}</p>
+                    <h5>Họ:</h5>
+                    <p>{{ detailuser.last_name }}</p>
+                    <h5>Email:</h5>
+                    <p>{{ detailuser.email }}</p>
+                    <a href="{% url 'accounts:edituser' user.id %}" class="btn btn-warning">Chỉnh Sửa Thông Tin</a>
+                    <a href="/password-change" class="btn btn-primary">Thay Đổi Mật Khẩu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

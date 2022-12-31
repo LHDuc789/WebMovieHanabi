@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    <div class="card" id="backdrop" >
+        <div class="card-body">
+            <div class="row"> <h3>Phim Yêu Thích</h3>
+                    {% for sort_value in sort_by_value %}
+                       <div class="col-md-4 mb-3">
+                            <a href="{% url 'main:detail' sort_value.product.id %}"><div class="card h-100" id="cardproduct">
+                                <img src="{{ sort_value.product.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h3 class="text-center card-title">{{ sort_value.product.name }}</h3>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+            </div>
+            <div class="pagination h6">
+                {% if sort_by_value.has_previous %}
+                    <a href="?page"><<</a>
+                    <a href="?page={{ sort_by_value.previous_page_number }}"><</a>
+                {% endif %}
+                {% for num in sort_by_value.paginator.page_range %}
+                    {% if sort_by_value.number == num %}
+                        <strong>{{ num }}</strong>
+                    {% elif num > sort_by_value.number|add:'-3' and num < sort_by_value.number|add:'3' %}
+                        {{ num }}
+                    {% endif %}
+                {% endfor %}
+                {% if sort_by_value.has_next %}
+                    <a href="?page={{ sort_by_value.next_page_number }}">></a>
+                    <a href="?page={{ sort_by_value.paginator.num_pages }}">>></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="">Project Review</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+{% endblock %}

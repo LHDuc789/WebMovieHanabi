@@ -1,0 +1,168 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+
+<style>
+.typelistitem {
+    display: inline;
+    margin-right: 5px;
+    color: blue;
+}
+</style>
+
+<div class="container">
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 pt-5 text-center">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="img-fluid pb-3" id="imgdetail">
+                    <br>
+                    {% if num_ep > 0 %}
+                        <a class="btn btn-primary" style="width: 100px;" href="{% url 'main:watch' product.id 1 %}">Xem Phim</a>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <form action="{% url 'main:like_product' product.id %}" method="POST" style="display:inline;" >
+                        {% csrf_token %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        {% if user not in product.liked.all %}
+                            <button class="btn btn-success" style="width: 100px;" type="submit">Yêu Thích</button>
+                        {% else %}
+                            <button class="btn btn-danger" style="width: 100px;" type="submit">Bỏ Thích</button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
+                    <br>
+                    <strong> {{ product.liked.all.count }} Lượt Yêu Thích</strong>
+                </div>
+                                    
+
+                <div class="col-md-8">
+                    <h3 class="text-center">
+                        {{ product.name }}
+                      
+                    </h3>
+                    <h5>Tóm Lược Nội Dung:</h5>
+                    <p>{{ product.description|linebreaks }}</p>
+                    <h5>Đạo Diễn:</h5>
+                    <p>{{ product.director }}</p>
+                    {% if product.cast %}
+                        <h5>Diễn Viên Nổi Bật:</h5>
+                        <p>{{product.cast}}</p>
+                    {% endif %}
+                    <h5>Ngày Khởi Chiếu:</h5>
+                    <p>Ngày {{ product.release_date.day }} Tháng {{ product.release_date.month }} Năm <strong><a href="{% url 'main:sortyear' product.release_date.year %}">{{ product.release_date.year }}</a></strong></p>
+                    {% if type_product %}
+                        <h5>Thể Loại:</h5>
+                        {% for type in type_product %}
+                            <a href="{% url 'main:sort_by_type' type.listtypes.name %}" class="col-md-4 typelistitem">{{ type.listtypes.name }}</a>
+                        {% endfor %}
+                    {% endif %}
+                    {% if product.epnums %}
+                    <h5 class="mt-3">Số Tập:</h5>
+                    <p>{{ product.epnums }}/{{ product.epnums }}</p>
+                    {% endif %}
+                    {% if product.timeep %}
+                    <h5>Thời Lượng:</h5>
+                    {% if product.epnums == 1 %}
+                        <p>{{ product.timeep }} Phút</p>
+                    {% elif product.epnums > 1 %}
+                        <p>{{ product.timeep }} Phút Mỗi Tập</p>
+                    {% endif %}
+                    {% endif %}
+                    <h5>Lượt Xem:</h5>
+                    <p>{{product.product_views}}</p>
+                    <h5>Đánh Giá:</h5>
+                    <p>{{ average }}/10</p>
+                    
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'main:edit_product' product.id %}" class="btn btn-warning" style="width: 180px">Chỉnh Sửa Sản Phẩm</a>                                       <a href="{% url 'main:delete_product' product.id %}" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này không ?');" style="width: 180px">Xóa Sản Phẩm</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    {% if user.is_authenticated %}
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Bình Luận Và Đánh Giá Của Bạn</h3>
+            <form action="{% url 'main:add_review' product.id %}" method="POST">
+                {% csrf_token %}
+                <label for="comment">Bình Luận:</label>
+                <textarea name="comment" id="comment" cols="30" rows="5" class="form-control"></textarea>
+                {% if messages %}
+                    <br>
+                    <div class="messages">
+                        {% for message in messages %}
+                        <strong{% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:red;">{{ message }}</strong>
+                        {% endfor %}
+                    </div>
+                    <br>
+                {% endif %}
+                <label for="rating">Đánh Giá:</label>
+                <br>
+                <input type="range" id="rangeInput" name="rating" min="0" max="10" value="0" step="0.5" oninput="amount.value=rangeInput.value">
+                <output name="amount" id="amount" for="rangeInput">0</output>
+                
+                <br>
+                <input type="submit" class="btn btn-danger" value="Gửi Bình Luận">
+            </form>
+        </div>
+    </div>
+    
+    <br>
+    {% if reviews %}
+    <div class="card">
+        <div class="card-body">
+        <h3 class="text-center">Các Bình Luận</h3>
+        {% for review in reviews %}
+            <div class="card" style="background-color: #f5eeee;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5 class="text-left"><img class="article-img text-left" src="{{ review.user.profile.image.url }}" width="150"> <br> {{ review.user.last_name }} {{ review.user.first_name }}</h5>
+                            <h5 class="text-left">{{ review.rating }}</h5>
+                            {% if request.user == review.user %}
+                            <a href="{% url 'main:edit_review' product.id review.id %}">Chỉnh Sửa Bình Luận</a>
+                            <br>
+                            <a href="{% url 'main:delete_review' product.id review.id %}" onclick="return confirm('Bạn có chắc muốn xóa bình luận này không ?');">Xóa Bình Luận</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <p>{{ review.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+     <div class="card">
+        <div class="card-body">
+        <h3 class="text-center">Vui lòng <strong><a class="text-center" href="{% url 'accounts:login' %}" id="linklogin">Đăng Nhập</a></strong> Để Bình Luận Và Đánh Giá</h3>
+        </div>
+        <br>
+    </div>
+    
+    {% endif %}
+    <br>
+</div>
+
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="">Project Review</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+{% endblock %}

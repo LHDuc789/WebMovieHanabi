@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Đăng Ký Tài Khoản</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <input type = "submit" value = "Đăng Ký" class="btn btn-danger">
+            </form>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>Thông Báo: </strong> {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

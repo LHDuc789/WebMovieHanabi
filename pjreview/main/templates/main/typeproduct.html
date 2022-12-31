@@ -1,0 +1,67 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+<div class="container text-center">
+    <br>
+    {% if sort_by_type %}
+    <div class="card" id="backdrop" >
+        <div class="card-body">
+            <div class="row"> <h3>Danh Mục Phim Thể Loại <strong><br>{{ by_type_name.listtypes.name }}</strong></h3>
+                    {% for sort_value in sort_by_type %}
+                       <div class="col-md-4 mb-3">
+                            <a href="{% url 'main:detail' sort_value.product.id %}"><div class="card h-100" id="cardproduct">
+                                <img src="{{ sort_value.product.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h3 class="text-center card-title">{{ sort_value.product.name }}</h3>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+            </div>
+            
+            <div class="pagination h6">
+                {% if sort_by_type.has_previous %}
+                    <a href="?page"><<</a>
+                    <a href="?page={{ sort_by_type.previous_page_number }}"><</a>
+                {% endif %}
+                {% for num in sort_by_type.paginator.page_range %}
+                    {% if sort_by_type.number == num %}
+                        <strong>{{ num }}</strong>
+                    {% elif num > sort_by_type.number|add:'-3' and num < sort_by_type.number|add:'3' %}
+                        {{ num }}
+                    {% endif %}
+                {% endfor %}
+                {% if sort_by_type.has_next %}
+                    <a href="?page={{ sort_by_type.next_page_number }}">></a>
+                    <a href="?page={{ sort_by_type.paginator.num_pages }}">>></a>
+                {% endif %}
+            </div>
+            
+        </div>
+        
+    </div>
+    {% else %}
+    <div class="card" id="backdrop" >
+        <div class="card-body">
+            <div class="row"> <h3>Chưa Có Phim Nào Thuộc Thể Loại Này</h3>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<br>
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="">Project Review</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+
+<div class="container text-center">
+ <br>
+    <div class="card" id="backdrop">
+        <div class="card-body">
+            <div class="row"> <h3>Phim Xếp Theo Lượt Xem</h3>
+                {% for product in products %}
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'main:detail' product.id %}"><div class="card h-100" id="cardproduct">
+                            <img src="{{ product.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="text-center card-title">{{ product.name }}</h3>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                 
+            
+             <div class="pagination h6">
+                {% if products.has_previous %}
+                    <a href="?page"><<</a>
+                    <a href="?page={{ products.previous_page_number }}"><</a>
+                {% endif %}
+                {% for num in products.paginator.page_range %}
+                    {% if products.number == num %}
+                        <strong>{{ num }}</strong>
+                    {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                        {{ num }}
+                    {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                    <a href="?page={{ products.next_page_number }}">></a>
+                    <a href="?page={{ products.paginator.num_pages }}">>></a>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+</div>
+<br>
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="">Project Review</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+
+{% endblock %}

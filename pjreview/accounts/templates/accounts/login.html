@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Đăng Nhập</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <label for="username">Tên Đăng Nhập</label>
+                <input type = "text" placeholder="Nhập Tên Đăng Nhập" class="form-control" name="username">
+                <label for="password">Mật Khẩu</label>
+                <input type = "password" placeholder="Nhập Mật Khẩu" class="form-control" name="password">
+                <br>
+                {% if error %}
+                <div>
+                    <i style="color: red;">{{ error }}</i>
+                </div>
+                <br>
+                {% endif %}
+                <input type = "submit" value = "Đăng Nhập" class="btn btn-danger">
+                <a href ="/password-reset" class="btn btn-primary">Quên Mật Khẩu ?</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

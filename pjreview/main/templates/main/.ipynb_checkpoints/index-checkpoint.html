@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+<div class="container text-center">
+    <br>
+    <div class="card" id="backdrop" >
+        <div class="card-body">
+            <div class="row"> <h3>Phim Nhiều Lượt Thích Và Được Đánh Giá Cao</h3>
+                    {% for sort_like in sort_liked %}
+                       <div class="col-md-4 mb-3 ">
+                            <a href="{% url 'main:detail' sort_like.id %}"><div class="card h-100" id="cardproduct">
+                                <img src="{{ sort_like.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h3 class="text-center card-title">{{ sort_like.name }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                <div class="pagination h6">
+                    <a href="{% url 'main:sort_like_average' %}"><strong>Xem Thêm</strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <div class="card" id="backdrop" >
+        <div class="card-body">
+            <div class="row"> <h3>Phim Nhiều Lượt Xem</h3>
+                    {% for sortview in sort_by_view %}
+                       <div class="col-md-4 mb-3">
+                            <a href="{% url 'main:detail' sortview.id %}"><div class="card h-100" id="cardproduct">
+                                <img src="{{ sortview.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h3 class="text-center card-title">{{ sortview.name }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                <div class="pagination h6">
+                     <a href="{% url 'main:sort_views' %}"><strong>Xem Thêm</strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    <div class="card" id="backdrop">
+        <div class="card-body">
+            <div class="row"> <h3>Phim Mới Cập Nhật</h3>
+                {% for product in products %}
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'main:detail' product.id %}"><div class="card h-100" id="cardproduct">
+                            <img src="{{ product.image }}" alt="" class="card-img-top mx-auto pt-3" id="imgproduct">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h3 class="text-center card-title">{{ product.name }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                 
+            
+             <div class="pagination h6">
+                 <a href="{% url 'main:allProducts' %}"><strong>Xem Thêm</strong></a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<br>
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="">Project Review</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+
+{% endblock %}
