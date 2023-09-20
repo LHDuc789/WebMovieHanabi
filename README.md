@@ -1,5 +1,7 @@
 ## Website Movie Hanabi
 ### Setup
++ Need to install django
++ Use Jupyter Notebook
 + Go to the folder containing the manage.py file 
 + Run the following commands:
 ```
@@ -25,22 +27,22 @@ py manage.py runserver
 ```
 ### Accounts:
 
-+ Admin account:
+#### Admin account:
 + admin. admin
 + Admin123456
 
-+ User account 1:
+#### User account 1:
 + nguyenhoangbao
 + Bao123456
 
-+ User account 2:
+#### User account 2:
 + tranvanbinh
 + 123456
 
-+ User account 3:
+#### User account 3:
 + lytrungtin
 + 123456
 
-+ User account 4:
+#### User account 4:
 + Nguyen Van An
 + 123456
