@@ -26,21 +26,21 @@ py manage.py runserver
 ### Accounts:
 
 + Admin account:
-++ admin. admin
-++ Admin123456
++ admin. admin
++ Admin123456
 
 + User account 1:
-++ nguyenhoangbao
-++ Bao123456
++ nguyenhoangbao
++ Bao123456
 
 + User account 2:
-++ tranvanbinh
-++ 123456
++ tranvanbinh
++ 123456
 
 + User account 3:
-++ lytrungtin
-++ 123456
++ lytrungtin
++ 123456
 
 + User account 4:
-++ Nguyen Van An
-++ 123456
++ Nguyen Van An
++ 123456
