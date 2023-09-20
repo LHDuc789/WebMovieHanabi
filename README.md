@@ -1,6 +1,6 @@
 ## Website Movie Hanabi
 ### Description
-+ A basic website for watching movies. The website is authorized in the form of user and admin. Admin can manage all movies and users by add, delete, edit and have the same function like user. Users can watch, add movies into love storage and comment on movies.
++ A basic website for watching movies built by Django. The website is authorized in the form of user and admin. Admin can manage all movies and users by add, delete, edit and have the same function like user. Users can watch, add movies into love storage and comment on movies.
 ### Setup
 + Need to install django
 + Use Jupyter Notebook
